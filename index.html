@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub 中文界面</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#fff;font-family:system-ui,-apple-system,Segoe UI}
+#container{width:100vw;height:100vh;overflow:hidden}
+iframe{width:100%;height:100%;border:0}
+</style>
+<script>
+// 更全面的汉化词典
+const dict = {
+  "Code":"代码","Issues":"问题","Pull requests":"合并请求","Actions":"工作流",
+  "Projects":"项目","Wiki":"维基","Security":"安全","Insights":"统计",
+  "Settings":"设置","New repository":"新建仓库","Create":"创建","Public":"公开",
+  "Private":"私有","Description":"描述","Repository name":"仓库名称",
+  "Sign in":"登录","Sign up":"注册","Your profile":"个人主页",
+  "Your repositories":"我的仓库","Star":"收藏","Fork":"复刻","Watch":"关注",
+  "Unwatch":"取消关注","Commits":"提交","Branches":"分支","Releases":"发布",
+  "Contributors":"贡献者","Go to file":"前往文件","Add file":"添加文件",
+  "Download ZIP":"下载压缩包","Clone":"克隆","Open with":"使用…打开",
+  "Delete":"删除","Edit":"编辑","Rename":"重命名","Upload files":"上传文件",
+  "Commit changes":"提交修改","Cancel":"取消","Back":"返回","Next":"下一步"
+};
+
+// 页面文本替换
+function doTranslate() {
+  const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT,null,false);
+  let n;
+  while(n=walk.nextNode()){
+    let t = n.textContent;
+    for(let [en,cn] of Object.entries(dict)){
+      t = t.replace(new RegExp(en,"g"),cn);
+    }
+    n.textContent = t;
+  }
+}
+
+window.addEventListener("load",()=>{
+  const frame = document.querySelector("iframe");
+  frame.onload = ()=>{
+    setInterval(doTranslate,800);
+  };
+});
+</script>
+</head>
+<body>
+<div id="container">
+<iframe src="https://github.com" sandbox="allow-same-origin allow-scripts allow-forms allow-popups"></iframe>
+</div>
+</body>
+</html>
